@@ -1,8 +1,8 @@
-package com.ricky.service;
+package com.ricky.llm.service;
 
-import com.ricky.domain.LLMChatRequest;
-import com.ricky.domain.LLMChatResponse;
-import com.ricky.domain.LLMStreamChunk;
+import com.ricky.llm.domain.LLMChatRequest;
+import com.ricky.llm.domain.LLMChatResponse;
+import com.ricky.llm.domain.LLMStreamChunk;
 import reactor.core.publisher.Flux;
 
 /**

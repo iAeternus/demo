@@ -1,9 +1,9 @@
-package com.ricky.service.impl;
+package com.ricky.llm.service.impl;
 
-import com.ricky.domain.LLMChatRequest;
-import com.ricky.domain.LLMChatResponse;
-import com.ricky.domain.LLMStreamChunk;
-import com.ricky.service.LLMChatService;
+import com.ricky.llm.domain.LLMChatRequest;
+import com.ricky.llm.domain.LLMChatResponse;
+import com.ricky.llm.domain.LLMStreamChunk;
+import com.ricky.llm.service.LLMChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatResponse;

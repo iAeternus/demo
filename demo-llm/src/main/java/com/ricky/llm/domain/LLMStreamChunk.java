@@ -1,4 +1,4 @@
-package com.ricky.domain;
+package com.ricky.llm.domain;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

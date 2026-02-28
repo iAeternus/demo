@@ -1,4 +1,4 @@
-package com.ricky;
+package com.ricky.llm;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;

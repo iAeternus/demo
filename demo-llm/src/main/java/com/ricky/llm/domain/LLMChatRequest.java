@@ -1,4 +1,4 @@
-package com.ricky.domain;
+package com.ricky.llm.domain;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;

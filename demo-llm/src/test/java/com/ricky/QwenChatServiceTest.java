@@ -1,8 +1,8 @@
 package com.ricky;
 
-import com.ricky.domain.LLMChatRequest;
-import com.ricky.domain.LLMChatResponse;
-import com.ricky.service.LLMChatService;
+import com.ricky.llm.domain.LLMChatRequest;
+import com.ricky.llm.domain.LLMChatResponse;
+import com.ricky.llm.service.LLMChatService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
