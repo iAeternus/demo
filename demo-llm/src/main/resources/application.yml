@@ -1,0 +1,9 @@
+spring:
+  ai:
+    retry:
+      max-attempts: 3
+    dashscope:
+      api-key: sk-7e262e47043a4050b13438f0c3923322
+      chat:
+        options:
+          model: qwen-plus
