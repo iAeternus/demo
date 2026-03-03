@@ -25,6 +25,7 @@
         <module>demo-spel</module>
         <module>demo-jvm</module>
         <module>demo-basic</module>
+        <module>demo-test</module>
     </modules>
 
     <repositories>
