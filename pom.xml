@@ -23,6 +23,7 @@
         <module>demo-llm</module>
         <module>demo-oss</module>
         <module>demo-spel</module>
+        <module>demo-jvm</module>
     </modules>
 
     <repositories>
