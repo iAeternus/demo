@@ -26,6 +26,7 @@
         <module>demo-jvm</module>
         <module>demo-basic</module>
         <module>demo-test</module>
+        <module>demo-spring</module>
     </modules>
 
     <repositories>
