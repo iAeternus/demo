@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.BeanReference;
 
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory {
 
@@ -39,6 +40,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             for (PropertyValue pv : beanDefinition.getPropertyValues().getPropertyValues()) {
                 String name = pv.getName();
                 Object value = pv.getValue();
+                if(value instanceof BeanReference beanReference) {
+                    value = getBean(beanReference.getBeanName());
+                }
 
                 // 通过反射设置属性
                 BeanUtil.setFieldValue(bean, name, value);
