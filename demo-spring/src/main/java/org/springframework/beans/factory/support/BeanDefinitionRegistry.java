@@ -16,7 +16,7 @@ public interface BeanDefinitionRegistry {
     /**
      * 根据名称查找BeanDefinition
      *
-     * @throws BeansException 如果找不到BeanDefintion
+     * @throws BeansException 如果找不到BeanDefinition
      */
     BeanDefinition getBeanDefinition(String beanName) throws BeansException;
 
