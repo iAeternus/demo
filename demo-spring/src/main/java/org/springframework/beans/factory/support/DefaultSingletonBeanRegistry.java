@@ -19,7 +19,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         return singletonObjects.get(name);
     }
 
-    protected void addSingleton(String name, Object singletonObject) {
+    public void addSingleton(String name, Object singletonObject) {
         singletonObjects.put(name, singletonObject);
     }
 
