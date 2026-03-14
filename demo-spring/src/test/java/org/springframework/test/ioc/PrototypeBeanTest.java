@@ -2,7 +2,7 @@ package org.springframework.test.ioc;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.test.ioc.bean.Car;
+import org.springframework.test.bean.Car;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
