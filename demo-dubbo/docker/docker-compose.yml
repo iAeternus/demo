@@ -23,7 +23,7 @@ services:
   provider:
     build:
       context: ..
-      dockerfile: docker/Dockerfile
+      dockerfile: demo-dubbo/docker/Dockerfile
       target: provider
     image: demo-dubbo/provider:latest
     container_name: dubbo-provider
@@ -49,7 +49,7 @@ services:
   consumer:
     build:
       context: ..
-      dockerfile: docker/Dockerfile
+      dockerfile: demo-dubbo/docker/Dockerfile
       target: consumer
     image: demo-dubbo/consumer:latest
     container_name: dubbo-consumer

@@ -7,7 +7,8 @@ COPY dubbo-api/pom.xml dubbo-api/
 COPY dubbo-provider/pom.xml dubbo-provider/
 COPY dubbo-consumer/pom.xml dubbo-consumer/
 
-RUN mvn dependency:go-offline -B
+RUN mvn install -N -B && \
+    mvn dependency:go-offline -B
 
 COPY dubbo-api/src ./dubbo-api/src
 COPY dubbo-provider/src ./dubbo-provider/src
