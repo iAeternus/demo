@@ -1,0 +1,25 @@
+server:
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+
+dubbo:
+  application:
+    name: dubbo-provider
+
+  registry:
+    address: zookeeper://zookeeper:2181
+
+  protocol:
+    name: dubbo
+    port: 20880
+
+  scan:
+    base-packages: com.ricky.provider
