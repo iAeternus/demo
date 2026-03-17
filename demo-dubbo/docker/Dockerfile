@@ -2,19 +2,36 @@ FROM maven:3.9-eclipse-temurin-17 AS builder
 
 WORKDIR /build
 
+ENV MAVEN_OPTS="-Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.retryHandler.requestSentEnabled=true -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 -Dmaven.wagon.http.pool=false"
+
+RUN mkdir -p /root/.m2 && \
+    printf '%s\n' \
+    '<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"' \
+    '          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' \
+    '          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">' \
+    '  <mirrors>' \
+    '    <mirror>' \
+    '      <id>ali-public</id>' \
+    '      <mirrorOf>central</mirrorOf>' \
+    '      <url>https://maven.aliyun.com/repository/public</url>' \
+    '    </mirror>' \
+    '  </mirrors>' \
+    '</settings>' \
+    > /root/.m2/settings.xml
+
 COPY pom.xml .
-COPY dubbo-api/pom.xml dubbo-api/
-COPY dubbo-provider/pom.xml dubbo-provider/
-COPY dubbo-consumer/pom.xml dubbo-consumer/
+COPY demo-dubbo/pom.xml demo-dubbo/
+COPY demo-dubbo/dubbo-api/pom.xml demo-dubbo/dubbo-api/
+COPY demo-dubbo/dubbo-provider/pom.xml demo-dubbo/dubbo-provider/
+COPY demo-dubbo/dubbo-consumer/pom.xml demo-dubbo/dubbo-consumer/
 
-RUN mvn install -N -B && \
-    mvn dependency:go-offline -B
+RUN mvn -f pom.xml install -N -B
 
-COPY dubbo-api/src ./dubbo-api/src
-COPY dubbo-provider/src ./dubbo-provider/src
-COPY dubbo-consumer/src ./dubbo-consumer/src
+COPY demo-dubbo/dubbo-api/src ./demo-dubbo/dubbo-api/src
+COPY demo-dubbo/dubbo-provider/src ./demo-dubbo/dubbo-provider/src
+COPY demo-dubbo/dubbo-consumer/src ./demo-dubbo/dubbo-consumer/src
 
-RUN mvn clean package -DskipTests -B
+RUN mvn -f demo-dubbo/pom.xml clean package -DskipTests -B
 
 # Provider镜像
 FROM eclipse-temurin:17-jre-alpine AS provider
@@ -23,7 +40,7 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 WORKDIR /app
 
-COPY --from=builder /build/dubbo-provider/target/*.jar app.jar
+COPY --from=builder /build/demo-dubbo/dubbo-provider/target/*.jar app.jar
 
 RUN chown -R appuser:appgroup /app
 
@@ -43,7 +60,7 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 WORKDIR /app
 
-COPY --from=builder /build/dubbo-consumer/target/*.jar app.jar
+COPY --from=builder /build/demo-dubbo/dubbo-consumer/target/*.jar app.jar
 
 RUN chown -R appuser:appgroup /app
 
