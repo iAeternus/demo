@@ -20,7 +20,7 @@ class MessagingTemplateImplTest {
     private KafkaTemplate<String, Object> kafkaTemplate;
 
     @Test
-    void testSendMessage() throws Exception {
+    void test_send_message() throws Exception {
         SendResult<String, Object> mockResult = mock(SendResult.class);
         var mockRecordMetadata = mock(org.apache.kafka.clients.producer.RecordMetadata.class);
         
@@ -43,7 +43,7 @@ class MessagingTemplateImplTest {
     }
 
     @Test
-    void testSendMessageFailure() {
+    void test_send_message_failure() {
         when(kafkaTemplate.send(anyString(), any(), any()))
                 .thenReturn(CompletableFuture.failedFuture(new RuntimeException("Send failed")));
 
@@ -57,7 +57,7 @@ class MessagingTemplateImplTest {
     }
 
     @Test
-    void testSendAsyncMessage() {
+    void test_send_async_message() {
         SendResult<String, Object> mockResult = mock(SendResult.class);
         var mockRecordMetadata = mock(org.apache.kafka.clients.producer.RecordMetadata.class);
         

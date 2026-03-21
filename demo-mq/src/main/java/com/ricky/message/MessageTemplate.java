@@ -8,4 +8,5 @@ public interface MessageTemplate {
 
     <T> CompletableFuture<SendResult> sendAsync(String topic, T payload);
 
+    <T> void sendInTransaction(String topic, T payload, Runnable transactionCallback);
 }

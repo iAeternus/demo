@@ -4,21 +4,20 @@ import com.ricky.message.enums.MessageBrokerType;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class MessagingPropertiesTest {
 
     @Test
-    void testDefaultValues() {
+    void test_default_values() {
         MessagingProperties properties = new MessagingProperties();
         
         assertEquals(MessageBrokerType.KAFKA, properties.getBroker());
     }
 
     @Test
-    void testKafkaProperties() {
+    void test_kafka_properties() {
         MessagingProperties properties = new MessagingProperties();
         
         MessagingProperties.KafkaProperties kafkaProperties = new MessagingProperties.KafkaProperties();
@@ -34,7 +33,7 @@ class MessagingPropertiesTest {
     }
 
     @Test
-    void testRabbitmqProperties() {
+    void test_rabbitmq_properties() {
         MessagingProperties properties = new MessagingProperties();
         
         MessagingProperties.RabbitmqProperties rabbitProperties = new MessagingProperties.RabbitmqProperties();
@@ -50,7 +49,7 @@ class MessagingPropertiesTest {
     }
 
     @Test
-    void testSetBrokerType() {
+    void test_set_broker_type() {
         MessagingProperties properties = new MessagingProperties();
         properties.setBroker(MessageBrokerType.RABBITMQ);
         

@@ -7,36 +7,36 @@ import static org.junit.jupiter.api.Assertions.*;
 class MessageBrokerTypeTest {
 
     @Test
-    void testKafkaValue() {
+    void test_kafka_value() {
         assertEquals("kafka", MessageBrokerType.KAFKA.getValue());
     }
 
     @Test
-    void testRabbitmqValue() {
+    void test_rabbitmq_value() {
         assertEquals("rabbitmq", MessageBrokerType.RABBITMQ.getValue());
     }
 
     @Test
-    void testFromValueKafka() {
+    void test_from_value_kafka() {
         MessageBrokerType type = MessageBrokerType.fromValue("kafka");
         assertEquals(MessageBrokerType.KAFKA, type);
     }
 
     @Test
-    void testFromValueRabbitmq() {
+    void test_from_value_rabbitmq() {
         MessageBrokerType type = MessageBrokerType.fromValue("rabbitmq");
         assertEquals(MessageBrokerType.RABBITMQ, type);
     }
 
     @Test
-    void testFromValueCaseInsensitive() {
+    void test_from_value_case_insensitive() {
         assertEquals(MessageBrokerType.KAFKA, MessageBrokerType.fromValue("KAFKA"));
         assertEquals(MessageBrokerType.KAFKA, MessageBrokerType.fromValue("KaFkA"));
         assertEquals(MessageBrokerType.RABBITMQ, MessageBrokerType.fromValue("RABBITMQ"));
     }
 
     @Test
-    void testFromValueInvalid() {
+    void test_from_value_invalid() {
         assertThrows(IllegalArgumentException.class, () -> MessageBrokerType.fromValue("invalid"));
     }
 }

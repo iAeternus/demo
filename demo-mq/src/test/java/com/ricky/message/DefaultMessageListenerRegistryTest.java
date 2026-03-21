@@ -10,12 +10,12 @@ class DefaultMessageListenerRegistryTest {
     private DefaultMessageListenerRegistry registry;
 
     @BeforeEach
-    void setUp() {
+    void set_up() {
         registry = new DefaultMessageListenerRegistry();
     }
 
     @Test
-    void testRegisterConsumer() {
+    void test_register_consumer() {
         MessageConsumer<String> consumer = msg -> System.out.println("Received: " + msg.getPayload());
         
         registry.register("test-topic", String.class, consumer);
@@ -25,13 +25,13 @@ class DefaultMessageListenerRegistryTest {
     }
 
     @Test
-    void testGetNonExistentTopic() {
+    void test_get_non_existent_topic() {
         ListenerWrapper<?> wrapper = registry.get("non-existent-topic");
         assertNull(wrapper);
     }
 
     @Test
-    void testRegisterMultipleConsumers() {
+    void test_register_multiple_consumers() {
         MessageConsumer<String> consumer1 = msg -> {};
         MessageConsumer<Integer> consumer2 = msg -> {};
 
@@ -46,7 +46,7 @@ class DefaultMessageListenerRegistryTest {
     }
 
     @Test
-    void testOverwriteExistingConsumer() {
+    void test_overwrite_existing_consumer() {
         MessageConsumer<String> consumer1 = msg -> {};
         MessageConsumer<String> consumer2 = msg -> {};
 

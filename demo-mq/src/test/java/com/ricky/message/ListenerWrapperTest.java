@@ -1,5 +1,6 @@
 package com.ricky.message;
 
+import lombok.Getter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ListenerWrapperTest {
 
     @Test
-    void testHandleMessageWithMatchingType() throws Exception {
+    void test_handle_message_with_matching_type() throws Exception {
         TestConsumer consumer = new TestConsumer();
         ListenerWrapper<TestMessage> wrapper = new ListenerWrapper<>(TestMessage.class, consumer);
 
@@ -29,7 +30,7 @@ class ListenerWrapperTest {
     }
 
     @Test
-    void testHandleMessageWithMismatchedType() {
+    void test_handle_message_with_mismatched_type() {
         ListenerWrapper<String> wrapper = new ListenerWrapper<>(String.class, msg -> {});
 
         Message<Integer> msg = new Message<>();
@@ -39,7 +40,7 @@ class ListenerWrapperTest {
     }
 
     @Test
-    void testMessagePayloadPreservedInWrapper() throws Exception {
+    void test_message_payload_preserved_in_wrapper() throws Exception {
         TestConsumer consumer = new TestConsumer();
         ListenerWrapper<TestMessage> wrapper = new ListenerWrapper<>(TestMessage.class, consumer);
 
@@ -59,7 +60,7 @@ class ListenerWrapperTest {
     }
 
     @Test
-    void testMessageKeyPreserved() throws Exception {
+    void test_message_key_preserved() throws Exception {
         TestConsumer consumer = new TestConsumer();
         ListenerWrapper<TestMessage> wrapper = new ListenerWrapper<>(TestMessage.class, consumer);
 
@@ -76,6 +77,7 @@ class ListenerWrapperTest {
         assertEquals("test-key", consumer.getReceivedMessage().getKey());
     }
 
+    @Getter
     static class TestConsumer implements MessageConsumer<TestMessage> {
         private boolean called = false;
         private Message<TestMessage> receivedMessage;
@@ -84,14 +86,6 @@ class ListenerWrapperTest {
         public void onMessage(Message<TestMessage> message) {
             this.called = true;
             this.receivedMessage = message;
-        }
-
-        public boolean isCalled() {
-            return called;
-        }
-
-        public Message<TestMessage> getReceivedMessage() {
-            return receivedMessage;
         }
     }
 
