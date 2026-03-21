@@ -5,6 +5,7 @@ import com.ricky.message.Message;
 import com.ricky.message.MessageListenerRegistry;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ public class KafkaListenerAdapter {
     private final MessageListenerRegistry registry;
 
     @KafkaListener(topics = "#{rickyMessagingProperties.kafka.topics}", groupId = "#{rickyMessagingProperties.kafka.consumerGroup}")
-    public void onMessage(ConsumerRecord<String, Object> record) throws Exception {
+    public void onMessage(ConsumerRecord<String, Object> record, Acknowledgment acknowledgment) throws Exception {
         Message<Object> msg = new Message<>();
         msg.setTopic(record.topic());
         msg.setKey(record.key());
@@ -26,5 +27,7 @@ public class KafkaListenerAdapter {
         if (wrapper != null) {
             wrapper.handle(msg);
         }
+
+        acknowledgment.acknowledge();
     }
 }

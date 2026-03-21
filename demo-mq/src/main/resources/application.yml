@@ -2,26 +2,52 @@ spring:
   application:
     name: demo-mq
 
+#  kafka:
+#    bootstrap-servers: localhost:9092
+#    producer:
+#      acks: all
+#      retries: 2147483647
+#      batch-size: 65536
+#      buffer-memory: 67108864
+#      compression-type: zstd
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+#      properties:
+#        delivery.timeout.ms: 120000
+#        request.timeout.ms: 30000
+#    consumer:
+#      group-id: ricky-consumer-group
+#      auto-offset-reset: earliest
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+#      properties:
+#        spring.json.trusted.packages: "*"
+
   kafka:
-    bootstrap-servers: localhost:9092
+    # 填入你宿主机访问的地址
+    bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
     producer:
-      acks: all
-      retries: 2147483647
-      batch-size: 65536
-      buffer-memory: 67108864
-      compression-type: zstd
+      # 消息 key 和 value 的序列化类
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      # 1 兼顾可靠性和吞吐量, 更高吞吐量设置0 更高可靠性设置 -1/all
+      acks: 1
+      compression-type: lz4
       properties:
-        delivery.timeout.ms: 120000
-        request.timeout.ms: 30000
+        enable.idempotence: true # 开启幂等性
     consumer:
       group-id: ricky-consumer-group
       auto-offset-reset: earliest
+      enable-auto-commit: false # 禁止自动提交偏移量, 手动提交
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      max-poll-records: 50   # 新增：防止单次拉取过多卡死
       properties:
-        spring.json.trusted.packages: "*"
+        group.protocol: "consumer"
+    listener:
+      concurrency: 3
+      ack-mode: manual_immediate # 消费者接收到消息后立即手动确认
+      missing-topics-fatal: false # 订阅主题不存在, 不抛出异常
 
 ricky:
   messaging:
