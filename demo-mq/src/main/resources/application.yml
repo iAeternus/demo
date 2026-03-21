@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: demo-mq
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      acks: all
+      retries: 2147483647
+      batch-size: 65536
+      buffer-memory: 67108864
+      compression-type: zstd
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        delivery.timeout.ms: 120000
+        request.timeout.ms: 30000
+    consumer:
+      group-id: ricky-consumer-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+
+ricky:
+  messaging:
+    broker: kafka
+    kafka:
+      topics:
+        - test-topic
+        - order-topic
+      consumer-group: ricky-consumer-group
+      concurrency: 3
+    rabbitmq:
+      exchange: ricky.exchange
+      queue-prefix: ricky.queue.
+      routing-key-prefix: ricky.key.
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.ricky.message: DEBUG
+    org.springframework.kafka: INFO

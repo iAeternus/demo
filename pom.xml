@@ -29,6 +29,7 @@
         <module>demo-spring</module>
         <module>demo-dubbo</module>
         <module>demo-redis</module>
+        <module>demo-mq</module>
     </modules>
 
     <repositories>
