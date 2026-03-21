@@ -26,12 +26,12 @@ public class MessagingTemplateImpl implements MessageTemplate {
     @Override
     public <T> void sendInTransaction(String topic, T payload, Runnable transactionCallback) {
         Message<T> msg = new Message<>(topic, null, payload);
-        
+
         // 在事务上下文中执行
         if (transactionCallback != null) {
             transactionCallback.run();
         }
-        
+
         // 发送事务消息
         producer.sendInTransaction(msg);
     }

@@ -80,7 +80,8 @@ class MessageTest {
         private String orderId;
         private double amount;
 
-        public OrderMessage() {}
+        public OrderMessage() {
+        }
 
         public OrderMessage(String orderId, double amount) {
             this.orderId = orderId;

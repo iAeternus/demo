@@ -1,6 +1,6 @@
 package com.ricky.threadpool;
 
-public class DiscardRejectHandle implements RejectHandle{
+public class DiscardRejectHandle implements RejectHandle {
     @Override
     public void reject(Runnable rejectCommand, MyThreadPool threadPool) {
         threadPool.blockingQueue.poll();

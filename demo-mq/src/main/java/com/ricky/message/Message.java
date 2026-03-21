@@ -9,7 +9,8 @@ public class Message<T> {
     private T payload;
     private Map<String, String> headers;
 
-    public Message() {}
+    public Message() {
+    }
 
     public Message(String topic, String key, T payload) {
         this.topic = topic;

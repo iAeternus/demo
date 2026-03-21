@@ -28,34 +28,34 @@ public class EventListenerScanner {
     public void scanAndRegister(MessageListenerRegistry registry) {
         try {
             Set<BeanDefinition> candidates = scanner.findCandidateComponents("com.ricky");
-            
+
             for (BeanDefinition bd : candidates) {
                 String className = bd.getBeanClassName();
                 if (className == null) continue;
-                
+
                 Class<?> clazz = Class.forName(className);
                 EventListener annotation = clazz.getAnnotation(EventListener.class);
-                
+
                 if (annotation != null) {
                     registerListener(clazz, annotation, registry);
                 }
             }
-            
+
             log.info("Registered {} event listeners", registeredListeners.size());
-            
+
         } catch (Exception e) {
             log.error("Failed to scan event listeners", e);
         }
     }
 
-    private void registerListener(Class<?> clazz, EventListener annotation, 
-                                   MessageListenerRegistry registry) {
+    private void registerListener(Class<?> clazz, EventListener annotation,
+                                  MessageListenerRegistry registry) {
         try {
             String topic = annotation.topic();
-            
+
             // 创建消费者实例
             Object consumerBean = clazz.getDeclaredConstructor().newInstance();
-            
+
             // 使用通用的消费者包装
             Consumer<Message<?>> consumer = message -> {
                 try {
@@ -64,23 +64,23 @@ public class EventListenerScanner {
                     throw new RuntimeException(e);
                 }
             };
-            
+
             // 注册消费者
             registry.registerConsumer(topic, consumer);
             registeredListeners.put(topic, consumerBean);
-            
+
             log.info("Registered listener: topic={}, bean={}", topic, clazz.getSimpleName());
-                    
+
         } catch (Exception e) {
             log.error("Failed to register listener: {}", clazz.getName(), e);
         }
     }
-    
+
     private void invokeOnMessage(Object bean, Object payload) throws Exception {
         for (java.lang.reflect.Method method : bean.getClass().getDeclaredMethods()) {
             if ("onMessage".equals(method.getName())) {
                 method.setAccessible(true);
-                
+
                 // 尝试查找 Message 类型的参数
                 Class<?>[] params = method.getParameterTypes();
                 if (params.length > 0) {
@@ -89,7 +89,7 @@ public class EventListenerScanner {
                         return;
                     }
                 }
-                
+
                 // 如果没有参数匹配，尝试直接调用（payload 作为参数）
                 method.invoke(bean, payload);
                 return;

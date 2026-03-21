@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum MessageBrokerType {
 
     KAFKA("kafka"),
-    RABBITMQ("rabbitmq");
+    RABBITMQ("rabbitmq"),
+    ;
 
     private final String value;
 

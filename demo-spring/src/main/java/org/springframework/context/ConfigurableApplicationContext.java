@@ -4,10 +4,10 @@ import org.springframework.beans.BeansException;
 
 public interface ConfigurableApplicationContext extends ApplicationContext {
 
-	/**
-	 * 刷新容器
-	 */
-	void refresh() throws BeansException;
+    /**
+     * 刷新容器
+     */
+    void refresh() throws BeansException;
 
     /**
      * 关闭应用上下文

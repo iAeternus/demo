@@ -23,8 +23,7 @@ public class KafkaConfig {
     @Bean
     public ProducerFactory<String, Object> producerFactory(KafkaProperties kafkaProperties) {
         Map<String, Object> config = new HashMap<>(kafkaProperties.buildProducerProperties());
-        DefaultKafkaProducerFactory<String, Object> factory = new DefaultKafkaProducerFactory(config);
-        return factory;
+        return new DefaultKafkaProducerFactory<>(config);
     }
 
     @Bean
@@ -53,7 +52,6 @@ public class KafkaConfig {
 
         return handler;
     }
-
 
 
 }

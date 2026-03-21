@@ -3,7 +3,8 @@ package com.ricky.message;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class DefaultMessageListenerRegistryTest {
 
@@ -17,9 +18,9 @@ class DefaultMessageListenerRegistryTest {
     @Test
     void test_register_consumer() {
         MessageConsumer<String> consumer = msg -> System.out.println("Received: " + msg.getPayload());
-        
+
         registry.register("test-topic", String.class, consumer);
-        
+
         ListenerWrapper<?> wrapper = registry.get("test-topic");
         assertNotNull(wrapper);
     }
@@ -32,8 +33,10 @@ class DefaultMessageListenerRegistryTest {
 
     @Test
     void test_register_multiple_consumers() {
-        MessageConsumer<String> consumer1 = msg -> {};
-        MessageConsumer<Integer> consumer2 = msg -> {};
+        MessageConsumer<String> consumer1 = msg -> {
+        };
+        MessageConsumer<Integer> consumer2 = msg -> {
+        };
 
         registry.register("topic1", String.class, consumer1);
         registry.register("topic2", Integer.class, consumer2);
@@ -47,8 +50,10 @@ class DefaultMessageListenerRegistryTest {
 
     @Test
     void test_overwrite_existing_consumer() {
-        MessageConsumer<String> consumer1 = msg -> {};
-        MessageConsumer<String> consumer2 = msg -> {};
+        MessageConsumer<String> consumer1 = msg -> {
+        };
+        MessageConsumer<String> consumer2 = msg -> {
+        };
 
         registry.register("test-topic", String.class, consumer1);
         registry.register("test-topic", String.class, consumer2);

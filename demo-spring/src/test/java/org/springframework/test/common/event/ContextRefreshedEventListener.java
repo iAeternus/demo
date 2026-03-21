@@ -5,8 +5,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 
 public class ContextRefreshedEventListener implements ApplicationListener<ContextRefreshedEvent> {
 
-	@Override
-	public void onApplicationEvent(ContextRefreshedEvent event) {
-		System.out.println(this.getClass().getName());
-	}
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        System.out.println(this.getClass().getName());
+    }
 }

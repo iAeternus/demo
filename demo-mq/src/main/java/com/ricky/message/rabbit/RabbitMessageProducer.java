@@ -6,8 +6,6 @@ import com.ricky.message.MessageProducer;
 import com.ricky.message.SendResult;
 import com.ricky.message.config.MessagingProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 

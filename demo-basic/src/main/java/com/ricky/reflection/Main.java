@@ -25,7 +25,7 @@ public class Main {
 
         Method[] methods = fieldValue.getClass().getDeclaredMethods();
         for (Method method : methods) {
-            if(method.getAnnotation(Printable.class) != null) {
+            if (method.getAnnotation(Printable.class) != null) {
                 System.out.println(method.getName());
                 method.invoke(fieldValue);
             }

@@ -9,7 +9,7 @@ class SendResultTest {
     @Test
     void test_failed_send_result_should_retry() {
         FailedSendResult result = new FailedSendResult("test-topic", new RuntimeException("test error"));
-        
+
         assertFalse(result.isSuccess());
         assertEquals("test-topic", result.getTopic());
         assertNotNull(result.getError());
@@ -19,7 +19,7 @@ class SendResultTest {
     @Test
     void test_failed_send_result_metadata() {
         FailedSendResult result = new FailedSendResult("test-topic", new RuntimeException("test error"));
-        
+
         assertNull(result.getMetadata());
     }
 

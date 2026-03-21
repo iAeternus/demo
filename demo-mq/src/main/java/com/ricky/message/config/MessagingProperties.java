@@ -32,6 +32,5 @@ public class MessagingProperties {
         private String exchange = "ricky.exchange";
         private String queuePrefix = "ricky.queue.";
         private String routingKeyPrefix = "ricky.key.";
-
     }
 }

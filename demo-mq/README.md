@@ -18,6 +18,7 @@ Demo-MQ 是一个轻量级的消息中间件抽象框架，通过注解驱动的
 ### 2.1 添加依赖
 
 ```xml
+
 <dependency>
     <groupId>com.ricky</groupId>
     <artifactId>demo-mq</artifactId>
@@ -28,6 +29,7 @@ Demo-MQ 是一个轻量级的消息中间件抽象框架，通过注解驱动的
 ### 2.2 定义事件
 
 ```java
+
 @Data
 @Builder
 public class OrderCreatedEvent {
@@ -42,19 +44,25 @@ public class OrderCreatedEvent {
 ### 2.3 发布消息
 
 ```java
+
 @Autowired
 private MessageTemplate messageTemplate;
 
 // 发布消息
-messageTemplate.send("order-created", orderEvent);
+messageTemplate.
+
+send("order-created",orderEvent);
 
 // 异步发布
-messageTemplate.sendAsync("order-created", orderEvent);
+messageTemplate.
+
+sendAsync("order-created",orderEvent);
 ```
 
 ### 2.4 消费消息
 
 ```java
+
 @Component
 @EventListener(topic = "order-created")
 public class OrderCreatedListener implements MessageConsumer<OrderCreatedEvent> {
@@ -95,12 +103,12 @@ ricky:
 
 ### 3.2 配置属性
 
-| 属性 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `ricky.messaging.broker` | String | `kafka` | 消息中间件类型 |
-| `ricky.messaging.kafka.topics` | List | `[]` | Kafka Topic 列表 |
-| `ricky.messaging.kafka.consumer-group` | String | `ricky-consumer-group` | 消费者组 |
-| `ricky.messaging.kafka.concurrency` | int | `3` | 并发消费者数 |
+| 属性                                     | 类型     | 默认值                    | 说明             |
+|----------------------------------------|--------|------------------------|----------------|
+| `ricky.messaging.broker`               | String | `kafka`                | 消息中间件类型        |
+| `ricky.messaging.kafka.topics`         | List   | `[]`                   | Kafka Topic 列表 |
+| `ricky.messaging.kafka.consumer-group` | String | `ricky-consumer-group` | 消费者组           |
+| `ricky.messaging.kafka.concurrency`    | int    | `3`                    | 并发消费者数         |
 
 ---
 
@@ -114,10 +122,10 @@ ricky:
 public interface MessageTemplate {
     // 同步发送
     <T> void send(String topic, T payload);
-    
+
     // 异步发送
     <T> CompletableFuture<SendResult> sendAsync(String topic, T payload);
-    
+
     // 事务内发送（消息在事务提交后发送）
     <T> void sendInTransaction(String topic, T payload, Runnable transactionCallback);
 }
@@ -128,10 +136,12 @@ public interface MessageTemplate {
 用于标注消息消费者类：
 
 ```java
+
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EventListener {
     String topic();  // 监听的Topic
+
     String group() default "";  // 消费者组（可选）
 }
 ```
@@ -228,11 +238,17 @@ DeadLetterPublishingRecoverer recoverer = ...
 
 ```java
 CompletableFuture<SendResult> future = messageTemplate.sendAsync("topic", event);
-future.thenAccept(result -> {
-    if (result.isSuccess()) {
-        log.info("Message sent: {}", result.getMessageId());
-    }
-});
+future.
+
+thenAccept(result ->{
+        if(result.
+
+isSuccess()){
+        log.
+
+info("Message sent: {}",result.getMessageId());
+        }
+        });
 ```
 
 ### 6.3 事务内发送
@@ -240,17 +256,23 @@ future.thenAccept(result -> {
 确保数据库操作与消息发送的原子性，消息仅在事务提交成功后发送：
 
 ```java
+
 @Autowired
 private MessageTemplate messageTemplate;
 
 // 事务内发送消息
-messageTemplate.sendInTransaction("order-created", orderEvent, () -> {
-    // 业务逻辑：创建订单（与消息发送在同一事务中）
-    orderService.create(order);
+messageTemplate.
+
+sendInTransaction("order-created",orderEvent, () ->{
+        // 业务逻辑：创建订单（与消息发送在同一事务中）
+        orderService.
+
+create(order);
 });
 ```
 
 **特点**：
+
 - 事务成功后消息才发送
 - 事务回滚时消息不会发送
 - 避免数据不一致问题
@@ -297,21 +319,27 @@ mvn test -Dtest=OrderEventIntegrationTest
 
 ```java
 // 1. 定义事件
-public class OrderCreatedEvent { ... }
-public class OrderPaidEvent { ... }
-public class OrderShippedEvent { void }
+public class OrderCreatedEvent { ...
+}
+
+public class OrderPaidEvent { ...
+}
+
+public class OrderShippedEvent {
+    void
+}
 
 // 2. 消费者
 @Component
 @EventListener(topic = "order-created")
 public class OrderCreatedListener implements MessageConsumer<OrderCreatedEvent> {
-    public void onMessage(Message<OrderCreatedEvent> m) { ... }
+    public void onMessage(Message<OrderCreatedEvent> m) { ...}
 }
 
 @Component
 @EventListener(topic = "order-paid")
 public class OrderPaidListener implements MessageConsumer<OrderPaidEvent> {
-    public void onMessage(Message<OrderPaidEvent> m) { ... }
+    public void onMessage(Message<OrderPaidEvent> m) { ...}
 }
 
 // 3. 发布者
@@ -319,13 +347,13 @@ public class OrderPaidListener implements MessageConsumer<OrderPaidEvent> {
 public class OrderController {
     @Autowired
     private MessageTemplate messageTemplate;
-    
+
     @PostMapping("/order")
     public void createOrder(Order order) {
         OrderCreatedEvent event = OrderCreatedEvent.builder()
-            .orderId(order.getId())
-            .amount(order.getAmount())
-            .build();
+                .orderId(order.getId())
+                .amount(order.getAmount())
+                .build();
         messageTemplate.send("order-created", event);
     }
 }

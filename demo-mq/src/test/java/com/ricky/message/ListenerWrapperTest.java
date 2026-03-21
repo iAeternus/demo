@@ -15,7 +15,7 @@ class ListenerWrapperTest {
         Message<TestMessage> msg = new Message<>();
         msg.setTopic("test-topic");
         msg.setKey("test-key");
-        
+
         TestMessage payload = new TestMessage();
         payload.id = "123";
         payload.name = "test";
@@ -31,7 +31,8 @@ class ListenerWrapperTest {
 
     @Test
     void test_handle_message_with_mismatched_type() {
-        ListenerWrapper<String> wrapper = new ListenerWrapper<>(String.class, msg -> {});
+        ListenerWrapper<String> wrapper = new ListenerWrapper<>(String.class, msg -> {
+        });
 
         Message<Integer> msg = new Message<>();
         msg.setPayload(123);

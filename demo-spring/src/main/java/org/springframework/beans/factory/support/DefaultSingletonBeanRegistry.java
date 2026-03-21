@@ -7,7 +7,6 @@ import org.springframework.beans.factory.config.SingletonBeanRegistry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 

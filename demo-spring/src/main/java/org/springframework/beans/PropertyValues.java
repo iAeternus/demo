@@ -25,7 +25,7 @@ public class PropertyValues {
 
     public PropertyValue getPropertyValue(String propertyName) {
         for (PropertyValue pv : propertyValueList) {
-            if(pv.getName().equals(propertyName)) {
+            if (pv.getName().equals(propertyName)) {
                 return pv;
             }
         }

@@ -16,15 +16,15 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {
-    "spring.kafka.bootstrap-servers=localhost:9092",
-    "spring.kafka.consumer.auto-offset-reset=earliest",
-    "spring.kafka.consumer.enable-auto-commit=true",
-    "ricky.messaging.broker=kafka",
-    "ricky.messaging.kafka.topics=order-created,order-paid,order-shipped"
+        "spring.kafka.bootstrap-servers=localhost:9092",
+        "spring.kafka.consumer.auto-offset-reset=earliest",
+        "spring.kafka.consumer.enable-auto-commit=true",
+        "ricky.messaging.broker=kafka",
+        "ricky.messaging.kafka.topics=order-created,order-paid,order-shipped"
 })
 public class OrderEventIntegrationTest {
 
@@ -51,13 +51,13 @@ public class OrderEventIntegrationTest {
                 .shippingAddress("Beijing, Chaoyang District")
                 .createdAt(LocalDateTime.now())
                 .build();
-        
+
         messageTemplate.send("order-created", event);
-        
+
         log.info("Published OrderCreatedEvent: orderId={}", orderId);
-        
+
         Thread.sleep(2000);
-        
+
         assertNotNull(event.getOrderId());
     }
 
@@ -74,13 +74,13 @@ public class OrderEventIntegrationTest {
                 .paidAt(LocalDateTime.now())
                 .paymentStatus("SUCCESS")
                 .build();
-        
+
         messageTemplate.send("order-paid", event);
-        
+
         log.info("Published OrderPaidEvent: orderId={}", orderId);
-        
+
         Thread.sleep(2000);
-        
+
         assertNotNull(event.getOrderId());
     }
 
@@ -100,13 +100,13 @@ public class OrderEventIntegrationTest {
                 .shipmentStatus("SHIPPED")
                 .estimatedDeliveryTime(LocalDateTime.now().plusDays(2).toString())
                 .build();
-        
+
         messageTemplate.send("order-shipped", event);
-        
+
         log.info("Published OrderShippedEvent: orderId={}", orderId);
-        
+
         Thread.sleep(2000);
-        
+
         assertNotNull(event.getOrderId());
     }
 
@@ -115,7 +115,7 @@ public class OrderEventIntegrationTest {
         String orderId = "ORD-" + UUID.randomUUID().toString().substring(0, 8);
 
         log.info("=== Starting full order lifecycle test: {} ===", orderId);
-        
+
         // Step 1: Create Order
         OrderCreatedEvent createdEvent = OrderCreatedEvent.builder()
                 .orderId(orderId)
@@ -129,12 +129,12 @@ public class OrderEventIntegrationTest {
                 .shippingAddress("Shanghai, Pudong District")
                 .createdAt(LocalDateTime.now())
                 .build();
-        
+
         messageTemplate.send("order-created", createdEvent);
         log.info("Step 1: Order created");
-        
+
         Thread.sleep(3000);
-        
+
         // Step 2: Pay Order
         OrderPaidEvent paidEvent = OrderPaidEvent.builder()
                 .orderId(orderId)
@@ -146,12 +146,12 @@ public class OrderEventIntegrationTest {
                 .paidAt(LocalDateTime.now())
                 .paymentStatus("SUCCESS")
                 .build();
-        
+
         messageTemplate.send("order-paid", paidEvent);
         log.info("Step 2: Order paid");
-        
+
         Thread.sleep(3000);
-        
+
         // Step 3: Ship Order
         OrderShippedEvent shippedEvent = OrderShippedEvent.builder()
                 .orderId(orderId)
@@ -166,12 +166,12 @@ public class OrderEventIntegrationTest {
                 .shipmentStatus("SHIPPED")
                 .estimatedDeliveryTime(LocalDateTime.now().plusDays(1).toString())
                 .build();
-        
+
         messageTemplate.send("order-shipped", shippedEvent);
         log.info("Step 3: Order shipped");
-        
+
         Thread.sleep(3000);
-        
+
         log.info("=== Full lifecycle completed ===");
     }
 }

@@ -8,6 +8,6 @@ import java.lang.annotation.*;
 public @interface EventListener {
 
     String topic();
-    
+
     String group() default "";
 }
