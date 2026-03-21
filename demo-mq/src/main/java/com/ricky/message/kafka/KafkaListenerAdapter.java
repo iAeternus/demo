@@ -14,7 +14,7 @@ public class KafkaListenerAdapter {
 
     private final MessageListenerRegistry registry;
 
-    @KafkaListener(topics = "#{'${app.kafka.topics}'.split(',')}")
+    @KafkaListener(topics = "#{rickyMessagingProperties.kafka.topics}", groupId = "#{rickyMessagingProperties.kafka.consumerGroup}")
     public void onMessage(ConsumerRecord<String, Object> record) throws Exception {
         Message<Object> msg = new Message<>();
         msg.setTopic(record.topic());
@@ -27,5 +27,4 @@ public class KafkaListenerAdapter {
             wrapper.handle(msg);
         }
     }
-
 }

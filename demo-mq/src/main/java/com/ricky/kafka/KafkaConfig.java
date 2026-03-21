@@ -20,16 +20,10 @@ import java.util.Map;
 @Configuration
 public class KafkaConfig {
 
-    private static final String TRANSACTION_ID_PREFIX = "tx-test-";
-
     @Bean
     public ProducerFactory<String, Object> producerFactory(KafkaProperties kafkaProperties) {
         Map<String, Object> config = new HashMap<>(kafkaProperties.buildProducerProperties());
-        DefaultKafkaProducerFactory<String, Object> factory = new DefaultKafkaProducerFactory<>(config);
-
-        // 事务，必须唯一
-        factory.setTransactionIdPrefix(TRANSACTION_ID_PREFIX);
-
+        DefaultKafkaProducerFactory<String, Object> factory = new DefaultKafkaProducerFactory(config);
         return factory;
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Setter
 @Getter
-@Component
+@Component("rickyMessagingProperties")
 @ConfigurationProperties(prefix = "ricky.messaging")
 public class MessagingProperties {
 

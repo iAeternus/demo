@@ -5,6 +5,7 @@ import com.ricky.message.Message;
 import com.ricky.message.MessageProducer;
 import com.ricky.message.SendResult;
 import com.ricky.message.config.MessagingProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -12,10 +13,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 
+@Slf4j
 @Component
 public class RabbitMessageProducer implements MessageProducer {
-
-    private static final Logger log = LoggerFactory.getLogger(RabbitMessageProducer.class);
 
     private final RabbitTemplate rabbitTemplate;
     private final MessagingProperties properties;

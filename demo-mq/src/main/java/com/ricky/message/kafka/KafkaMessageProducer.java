@@ -6,12 +6,14 @@ import com.ricky.message.MessageProducer;
 import com.ricky.message.SendResult;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.producer.RecordMetadata;
+import org.springframework.context.annotation.Primary;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 
 @Component
+@Primary
 @RequiredArgsConstructor
 public class KafkaMessageProducer implements MessageProducer {
 
