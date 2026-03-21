@@ -18,9 +18,7 @@ public class DefaultMessageListenerRegistry implements MessageListenerRegistry {
 
     @Override
     public void registerConsumer(String topic, Consumer<Message<?>> consumer) {
-        consumers.put(topic, new ListenerWrapper<>(Object.class, msg -> {
-            consumer.accept(msg);
-        }));
+        consumers.put(topic, new ListenerWrapper<>(Object.class, consumer::accept));
     }
 
     @Override
